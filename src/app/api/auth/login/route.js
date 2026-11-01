@@ -10,15 +10,16 @@ export async function POST(request) {
     const { username, password } = await request.json();
 
     // --- DEVELOPER SHORTCUT FOR HACKATHON ---
-    // Agar DB completely khali hai, toh ek default coach create kar do
     const userCount = await User.countDocuments();
     if (userCount === 0 && username === 'coach' && password === 'coach123') {
-      await User.create({
-        name: 'Head Coach',
-        username: 'coach',
-        password: 'coach123',
-        role: 'coach'
-      });
+      await User.create({ name: 'Head Coach', username: 'coach', password: 'coach123', role: 'coach' });
+    }
+    // Agar scout likhe toh usko auto-create kar do testing ke liye
+    if (username === 'scout' && password === 'scout123') {
+      const scoutExists = await User.findOne({ username: 'scout' });
+      if (!scoutExists) {
+        await User.create({ name: 'Talent Scout', username: 'scout', password: 'scout123', role: 'scout' });
+      }
     }
     // ----------------------------------------
 
@@ -54,9 +55,9 @@ export async function POST(request) {
     });
 
     // Success Response
-    return NextResponse.json({ 
-      message: 'Login successful', 
-      role: user.role 
+    return NextResponse.json({
+      message: 'Login successful',
+      role: user.role
     }, { status: 200 });
 
   } catch (error) {
