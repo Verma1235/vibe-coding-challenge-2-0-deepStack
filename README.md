@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏆 Academy Desk — Elite Sports Academy Management System
 
-## Getting Started
+**Academy Desk** is a high-performance, modern web application built for sports academies to digitize player management, attendance tracking, match records, eligibility scoring, and talent scouting. Designed with a sleek **Glassmorphism UI**, **Dark/Light mode adaptability**, and robust role-based access control.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Key Features & Architecture
+
+* **Role-Based Access Control (RBAC):** Secure login flows with custom dashboards for **Coaches**, **Players**, and **Scouts**.
+* **Smart Attendance Tracking:** 
+  * Compact multi-column attendance grid with quick `Present` / `Absent` toggles.
+  * *Strict Date Rule:* Attendance can only be recorded for the **current date**.
+  * *New Player Safeguard:* Attendance percentages automatically factor in the player's registration date, preventing penalization for sessions missed prior to joining.
+* **Match Management & Scoring:**
+  * Match recording strictly validates session attendance—scores can only be recorded for players marked **Present** on that date.
+  * Inline score editing for past matches.
+* **Player Analytics & Calendar View:**
+  * Deep performance metrics including attendance %, matches played, total score, and average points.
+  * Visual **Calendar Grid** for players to review their daily attendance status.
+* **Elite Talent Scouting:**
+  * Automatic eligibility engine checking the core academy benchmark ($\ge 75\%$ attendance and $\ge 2$ matches played).
+* **Modern Glassmorphism UI:** Built with Next.js App Router, Tailwind CSS, and custom fluid gradients.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Framework:** Next.js (App Router, React Server & Client Components)
+* **Styling:** Tailwind CSS (Glassmorphism, Dark/Light Mode support)
+* **Database & ODM:** MongoDB & Mongoose
+* **Authentication:** JWT (JSON Web Tokens) with secure HTTP-only cookies
+* **Notifications:** `react-hot-toast`
+
+---
+
+## 📂 Project Structure
+
+```text
+academy-desk/
+├── src/
+│   ├── app/
+│   │   ├── api/             # Backend API Routes (Auth, Coach, Player, Scout)
+│   │   ├── coach/           # Coach Dashboard, Sessions, & Matches
+│   │   ├── player/          # Athlete Portal & Attendance Calendar
+│   │   ├── scout/           # Elite Talent Scouting View
+│   │   ├── (auth)/login/    # Secure Login Portal
+│   │   ├── layout.js        # Root Layout with Global Toaster & Background Glows
+│   │   └── page.js          # Landing Page
+│   ├── lib/
+│   │   ├── db.js            # MongoDB Connection with DNS Fallbacks
+│   │   └── eligibility.js   # Central Business Logic Engine
+│   └── models/              # Mongoose Schemas (User, Session, Match)
+├── public/                  # Static assets
+├── .env.local               # Environment Variables
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🚀 Repository Setup & Installation Guide
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+Make sure you have installed:
+* **Node.js** (v18+ recommended)
+* **MongoDB** (Local instance or MongoDB Atlas cluster URI)
 
-## Learn More
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Verma1235/vibe-coding-challenge-2-0-deepStack.git
+cd vibe-coding-challenge-2-0-deepStack.git
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Configure Environment Variables
+Create a file named `.env.local` in the root directory of your project and add your MongoDB connection string and a secure JWT secret:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/academy-desk?retryWrites=true&w=majority
+JWT_SECRET=your_super_secret_jwt_key_here
+```
 
-## Deploy on Vercel
+### 4. Run the Development Server
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔑 Default Hackathon Credentials
+
+The system automatically provisions a head coach account upon first launch. You can log in using these preset credentials:
+
+| Role | Username | Password | Access Level |
+| :--- | :--- | :--- | :--- |
+| **Coach** | `coach` | `coach123` | Register players, record daily attendance, lock sessions, record matches |
+| **Scout** | `scout` | `scout123` | View elite players meeting the readiness benchmark ($\ge 75\%$ & $\ge 2$ matches) |
+| **Player** | *(Generated by Coach)* | *(Assigned)* | View personal stats, attendance calendar, and match history |
+
+---
+
+## 📜 Core Business Rules
+
+1. **Session Lock State:** Once a practice session is locked by the coach, attendance records become permanent and cannot be edited or deleted.
+2. **Attendance Eligibility:** A player is marked as **"Ready for Scouting"** only if their attendance rate is $\ge 75\%$ and they have participated in $\ge 2$ matches.
+3. **Match Validation:** A match score entry is strictly blocked if no practice session attendance exists for that sport on that date or if the present count is zero.
+
+---
+
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/vibe-coding-challenge-2-0-deepStack.git/issues).
+
+---
+
+## 📄 License
+This project is open-source and available under the [MIT License](LICENSE).
